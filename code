@@ -1,0 +1,38 @@
+import os
+import tkinter as tk
+from tkinter import filedialog
+import pygame
+
+class MusicPlayer:
+    def __init__(self, master):
+        self.master = master
+        master.title("Music Player")
+        master.geometry("300x100")
+
+        self.play_button = tk.Button(master, text="Play", command=self.play_music)
+        self.play_button.pack()
+
+        self.stop_button = tk.Button(master, text="Stop", command=self.stop_music)
+        self.stop_button.pack()
+
+        self.select_button = tk.Button(master, text="Select Music", command=self.select_music)
+        self.select_button.pack()
+
+        self.music_file = None
+
+    def select_music(self):
+        self.music_file = filedialog.askopenfilename(initialdir=os.getcwd(), title="Select Music", filetypes=(("MP3 files", ".mp3"), ("All files", ".*")))
+
+    def play_music(self):
+        if self.music_file:
+            pygame.mixer.init()
+            pygame.mixer.music.load(self.music_file)
+            pygame.mixer.music.play()
+
+    def stop_music(self):
+        pygame.mixer.music.stop()
+
+if _name_ == "_main_":
+    root = tk.Tk()
+    app = MusicPlayer(root)
+    root.mainloop()
